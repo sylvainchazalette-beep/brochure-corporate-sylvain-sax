@@ -32,7 +32,7 @@
 
   <style>
     /* ============================================================
-       FLUID DESIGN TOKENS
+       FLUID DESIGN TOKENS & MULTI-DEVICE RESPONSIVENESS
        ============================================================ */
     :root {
       --bg: #0F172A;
@@ -49,21 +49,35 @@
       --serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
       --sans: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-      --step-h1: clamp(2.25rem, 1.3rem + 4.4vw, 3.875rem);
-      --step-h2: clamp(1.75rem, 1.3rem + 2vw, 2.5rem);
-      --step-h3: clamp(1.1875rem, 1.1rem + 0.4vw, 1.375rem);
-      --step-body: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
-      --step-small: clamp(0.875rem, 0.85rem + 0.15vw, 0.9375rem);
-      --step-tiny: clamp(0.8125rem, 0.8rem + 0.08vw, 0.875rem);
-      --step-eyebrow: 0.6875rem;
+      /* Typographie fluide du mobile (320px) aux grands écrans & TV (4K+) */
+      --step-h1: clamp(2.1rem, 1.35rem + 3.8vw, 4.75rem);
+      --step-h2: clamp(1.65rem, 1.2rem + 2vw, 3rem);
+      --step-h3: clamp(1.15rem, 1.05rem + 0.45vw, 1.55rem);
+      --step-body: clamp(1rem, 0.96rem + 0.22vw, 1.2rem);
+      --step-small: clamp(0.875rem, 0.84rem + 0.16vw, 1.02rem);
+      --step-tiny: clamp(0.8125rem, 0.79rem + 0.1vw, 0.9375rem);
+      --step-eyebrow: clamp(0.6875rem, 0.66rem + 0.1vw, 0.78rem);
 
       --tracking-eyebrow: 0.2em;
 
-      --gap: clamp(1.25rem, 0.8rem + 1.8vw, 2.25rem);
-      --section-gap: clamp(5rem, 3rem + 8vw, 9rem);
-      --card-pad: clamp(1.75rem, 1.2rem + 2.2vw, 3rem);
+      --container-max: 1160px;
+      --gap: clamp(1.1rem, 0.75rem + 1.6vw, 2.5rem);
+      --section-gap: clamp(4.5rem, 2.8rem + 6.5vw, 9.5rem);
+      --card-pad: clamp(1.5rem, 1.1rem + 2vw, 3.25rem);
       --radius: 4px;
       --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @media (min-width: 1280px) {
+      :root {
+        --container-max: 1280px;
+      }
+    }
+
+    @media (min-width: 1600px) {
+      :root {
+        --container-max: 1480px;
+      }
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -83,7 +97,7 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
-      overflow-x: hidden;
+      overflow-x: clip;
       padding-left: env(safe-area-inset-left);
       padding-right: env(safe-area-inset-right);
     }
@@ -95,14 +109,14 @@
     ul, ol { list-style: none; }
 
     :focus-visible {
-      outline: 1px solid var(--accent-light);
-      outline-offset: 4px;
+      outline: 2px solid var(--accent-light);
+      outline-offset: 3px;
     }
 
     .container {
-      max-width: 1160px;
+      max-width: var(--container-max);
       margin-inline: auto;
-      padding: clamp(1rem, 0.5rem + 2vw, 2.5rem) clamp(1.25rem, 0.75rem + 2.5vw, 2.5rem) clamp(3rem, 2rem + 4vw, 5rem);
+      padding: clamp(1rem, 0.5rem + 2vw, 3rem) clamp(1rem, 0.65rem + 2.5vw, 3rem) clamp(3.5rem, 2rem + 4vw, 6rem);
     }
 
     /* TYPOGRAPHY */
@@ -136,7 +150,7 @@
       border: 1px solid var(--accent);
       border-radius: 2px;
       font-family: var(--sans);
-      font-size: 0.75rem;
+      font-size: clamp(0.72rem, 0.7rem + 0.12vw, 0.85rem);
       font-weight: 600;
       letter-spacing: 0.18em;
       text-transform: uppercase;
@@ -156,7 +170,7 @@
       background-position: center;
       background-size: cover;
       border-radius: var(--radius);
-      padding: clamp(4.5rem, 2.5rem + 8vw, 9rem) clamp(1.5rem, 0.75rem + 4vw, 4rem) clamp(2.5rem, 1.75rem + 3vw, 4rem);
+      padding: clamp(4rem, 2.2rem + 7.5vw, 10.5rem) clamp(1.25rem, 0.75rem + 4vw, 4.5rem) clamp(2.5rem, 1.75rem + 3vw, 4.5rem);
       border: 1px solid var(--hairline);
       text-align: center;
       overflow: hidden;
@@ -172,39 +186,25 @@
       text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
     }
 
-    @media (min-width: 641px) {
-      .hero {
-        background-image: linear-gradient(180deg, rgba(10, 15, 28, 0.74) 0%, rgba(15, 23, 42, 0.86) 55%, rgba(10, 15, 28, 0.94) 100%),
-                          url('images/fond-hero.jpg');
-      }
-    }
-
-    @media (min-width: 1200px) {
-      .hero {
-        background-image: linear-gradient(180deg, rgba(10, 15, 28, 0.74) 0%, rgba(15, 23, 42, 0.86) 55%, rgba(10, 15, 28, 0.94) 100%),
-                          url('images/fond-hero.jpg');
-      }
-    }
-
     .hero-badge {
       color: var(--accent-light);
-      margin-bottom: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
+      margin-bottom: clamp(1.25rem, 1rem + 1vw, 2.25rem);
     }
 
     .hero h1 {
       font-size: var(--step-h1);
       color: #FFFFFF;
       line-height: 1.1;
-      max-width: 18ch;
-      margin: 0 auto clamp(1.25rem, 1rem + 1vw, 1.75rem);
+      max-width: 19ch;
+      margin: 0 auto clamp(1.15rem, 0.9rem + 1vw, 1.85rem);
     }
 
     .hero-lead {
-      font-size: clamp(1.0625rem, 0.98rem + 0.45vw, 1.25rem);
+      font-size: clamp(1.02rem, 0.96rem + 0.45vw, 1.4rem);
       color: var(--soft);
       line-height: 1.65;
-      max-width: 44ch;
-      margin: 0 auto clamp(2rem, 1.5rem + 2vw, 3rem);
+      max-width: 48ch;
+      margin: 0 auto clamp(1.75rem, 1.4rem + 2vw, 3rem);
       font-weight: 300;
     }
 
@@ -213,7 +213,7 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 0.875rem;
-      margin-bottom: clamp(3.5rem, 2.5rem + 4vw, 6rem);
+      margin-bottom: clamp(3rem, 2.2rem + 3.8vw, 6rem);
     }
 
     .hero-actions .btn-ghost { color: #FFFFFF; border-color: rgba(255, 255, 255, 0.35); }
@@ -221,10 +221,10 @@
     .hero-stats {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      max-width: 720px;
+      max-width: min(760px, 100%);
       margin-inline: auto;
       border-top: 1px solid var(--hairline-strong);
-      padding-top: clamp(1.5rem, 1.1rem + 1.5vw, 2.25rem);
+      padding-top: clamp(1.35rem, 1rem + 1.5vw, 2.5rem);
     }
 
     .stat-item {
@@ -232,14 +232,14 @@
       flex-direction: column-reverse;
       text-align: center;
       min-width: 0;
-      padding-inline: 0.5rem;
+      padding-inline: clamp(0.25rem, 0.1rem + 0.7vw, 1rem);
     }
 
     .stat-item + .stat-item { border-left: 1px solid var(--hairline); }
 
     .stat-val {
       font-family: var(--serif);
-      font-size: clamp(1.5rem, 1.1rem + 1.8vw, 2.375rem);
+      font-size: clamp(1.35rem, 1rem + 1.8vw, 2.75rem);
       font-weight: 600;
       color: #FFFFFF;
       line-height: 1.1;
@@ -249,14 +249,15 @@
 
     .stat-lbl {
       color: var(--muted);
-      letter-spacing: 0.14em;
+      letter-spacing: clamp(0.06em, 0.04em + 0.08vw, 0.14em);
       margin-top: 0.625rem;
+      overflow-wrap: anywhere;
     }
 
     /* SECTION TITLES */
     .section-header {
       text-align: center;
-      margin: var(--section-gap) 0 clamp(2.5rem, 1.75rem + 3vw, 4.5rem) 0;
+      margin: var(--section-gap) 0 clamp(2.25rem, 1.5rem + 2.8vw, 4.5rem) 0;
     }
 
     .section-header h2 {
@@ -270,7 +271,7 @@
       display: block;
       width: 48px;
       height: 1px;
-      margin: clamp(1.25rem, 1rem + 0.6vw, 1.625rem) auto;
+      margin: clamp(1.15rem, 0.9rem + 0.6vw, 1.625rem) auto;
       background: var(--accent);
     }
 
@@ -279,7 +280,7 @@
       font-size: var(--step-body);
       font-weight: 300;
       line-height: 1.6;
-      max-width: 52ch;
+      max-width: 56ch;
       margin-inline: auto;
     }
 
@@ -291,7 +292,7 @@
     }
 
     @media (min-width: 560px) { .timeline { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (min-width: 1000px) { .timeline { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    @media (min-width: 1024px) { .timeline { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
     .timeline-card {
       background: var(--surface);
@@ -304,10 +305,10 @@
       font-family: var(--serif);
       font-style: italic;
       font-weight: 400;
-      font-size: 1.75rem;
+      font-size: clamp(1.5rem, 1.3rem + 0.7vw, 2.1rem);
       line-height: 1;
       color: var(--accent);
-      margin-bottom: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+      margin-bottom: clamp(1.25rem, 1rem + 0.9vw, 2rem);
     }
 
     .timeline-time { color: var(--accent); }
@@ -333,10 +334,10 @@
     }
 
     @media (min-width: 560px) { .genres-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (min-width: 1000px) { .genres-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    @media (min-width: 1024px) { .genres-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
     .genre-box {
-      padding: clamp(1.5rem, 1.2rem + 1vw, 2.25rem) clamp(0.25rem, 0rem + 1vw, 1.5rem);
+      padding: clamp(1.5rem, 1.2rem + 1vw, 2.5rem) clamp(0.5rem, 0.25rem + 1vw, 1.75rem);
       border-bottom: 1px solid var(--hairline);
     }
 
@@ -351,6 +352,13 @@
       gap: var(--gap);
     }
 
+    @media (min-width: 680px) {
+      .video-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (min-width: 1080px) {
+      .video-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
 
     .video-card {
       min-width: 0;
@@ -361,12 +369,10 @@
       transition: transform 0.4s var(--ease), border-color 0.4s ease;
     }
 
-    /* Wrapper Instagram Reel : on fixe une hauteur visible et on cache tout le reste */
     .video-wrapper {
       position: relative;
       width: 100%;
-      /* Hauteur visible = uniquement la zone vidéo du reel */
-      height: 420px;
+      height: clamp(360px, 52vw, 460px);
       background: #0B1120;
       overflow: hidden;
       border-radius: var(--radius) var(--radius) 0 0;
@@ -374,14 +380,11 @@
 
     .video-wrapper iframe {
       position: absolute;
-      /* Décalage haut : masque le header Instagram (~60px) */
       top: -62px;
       left: 50%;
       transform: translateX(-50%);
-      /* Largeur fixe du player Instagram embed */
-      width: 400px;
-      /* Hauteur totale iframe : visible (420px) + haut masqué (62px) + bas masqué (340px) */
-      height: 822px;
+      width: min(400px, 100%);
+      height: calc(100% + 402px);
       border: 0;
       pointer-events: auto;
     }
@@ -396,7 +399,7 @@
     }
 
     .video-meta {
-      padding: 1.25rem 1.5rem;
+      padding: clamp(1rem, 0.85rem + 0.5vw, 1.5rem);
       border-top: 1px solid var(--hairline);
     }
 
@@ -415,7 +418,17 @@
       line-height: 1.5;
     }
 
-    /* GALERIE PHOTO — masonry sans trous, images jamais recadrées */
+    /* ============================================================
+       GALERIE PHOTO — CAROUSEL MOBILE, MASONRY TABLETTE / DESKTOP / TV
+       ============================================================ */
+    .gallery-carousel-controls {
+      display: none;
+    }
+
+    .gallery-carousel-dots {
+      display: none;
+    }
+
     .gallery-grid {
       display: block;
       column-count: 1;
@@ -426,8 +439,12 @@
       .gallery-grid { column-count: 2; }
     }
 
-    @media (min-width: 1100px) {
+    @media (min-width: 1024px) {
       .gallery-grid { column-count: 3; }
+    }
+
+    @media (min-width: 1600px) {
+      .gallery-grid { column-count: 4; }
     }
 
     .gallery-item {
@@ -454,34 +471,15 @@
       transition: none;
     }
 
-    .gallery-overlay {
-      position: absolute;
-      inset: auto 0 0 0;
-      background: linear-gradient(0deg, rgba(15, 23, 42, 0.94) 0%, rgba(15, 23, 42, 0.7) 55%, transparent 100%);
-      padding: 2.75rem clamp(1.25rem, 1rem + 1vw, 1.75rem) clamp(1.125rem, 0.9rem + 1vw, 1.5rem);
-      color: #FFF;
-    }
-
-    .gallery-caption {
-      display: block;
-      font-family: var(--serif);
-      font-size: var(--step-body);
-      font-weight: 600;
-      color: #FFFFFF;
-      line-height: 1.35;
-    }
-
-    .gallery-sub { display: block; font-size: var(--step-tiny); color: var(--soft); line-height: 1.5; margin-top: 0.25rem; }
-
     .gallery-zoom-badge {
       position: absolute;
       top: 14px;
       right: 14px;
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: 2px;
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.22);
       color: #FFFFFF;
       display: flex;
       align-items: center;
@@ -490,6 +488,122 @@
       transition: opacity 0.3s ease;
       z-index: 2;
       pointer-events: none;
+    }
+
+    @media (max-width: 639px) {
+      .gallery-carousel-wrap {
+        position: relative;
+      }
+
+      .gallery-grid {
+        display: flex;
+        flex-direction: row;
+        column-count: unset;
+        gap: 0.9rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-inline: 0.15rem;
+        padding-bottom: 0.5rem;
+      }
+
+      .gallery-grid::-webkit-scrollbar {
+        display: none;
+      }
+
+      .gallery-grid .gallery-item {
+        flex: 0 0 86%;
+        width: 86%;
+        max-width: 86%;
+        margin: 0;
+        scroll-snap-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #0B1120;
+        min-height: 240px;
+        max-height: 62vh;
+      }
+
+      .gallery-grid .gallery-item img {
+        width: 100%;
+        height: 100%;
+        max-height: 62vh;
+        object-fit: contain;
+      }
+
+      .gallery-grid .gallery-zoom-badge {
+        opacity: 0.92;
+        top: 10px;
+        right: 10px;
+        width: 32px;
+        height: 32px;
+      }
+
+      .gallery-carousel-controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        margin-top: 1rem;
+      }
+
+      .carousel-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        border-radius: 2px;
+        background: var(--surface);
+        border: 1px solid var(--hairline-strong);
+        color: #FFFFFF;
+        cursor: pointer;
+        transition: border-color 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+      }
+
+      .carousel-btn:hover,
+      .carousel-btn:focus-visible {
+        border-color: var(--accent);
+        color: var(--accent-light);
+      }
+
+      .carousel-counter {
+        font-family: var(--sans);
+        font-size: var(--step-tiny);
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .gallery-carousel-dots {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 0.45rem;
+        margin-top: 0.85rem;
+      }
+
+      .carousel-dot {
+        width: 8px;
+        height: 8px;
+        padding: 0;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.35);
+        cursor: pointer;
+        transition: width 0.25s ease, background-color 0.25s ease;
+      }
+
+      .carousel-dot.is-active {
+        width: 22px;
+        background: var(--accent);
+      }
     }
 
     /* FORMULES SHOWCASE — 3 COLONNES POUR CORPORATE */
@@ -505,7 +619,7 @@
     .pricing-card {
       background: var(--surface);
       border-radius: var(--radius);
-      padding: clamp(2rem, 1.25rem + 2vw, 2.75rem);
+      padding: clamp(1.75rem, 1.25rem + 2vw, 3rem);
       border: 1px solid var(--hairline);
       position: relative;
       display: flex;
@@ -530,7 +644,7 @@
     }
 
     .price-title {
-      font-size: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
+      font-size: clamp(1.3rem, 1.15rem + 0.8vw, 1.9rem);
       color: #FFFFFF;
       line-height: 1.2;
     }
@@ -542,7 +656,7 @@
       align-items: baseline;
       flex-wrap: wrap;
       gap: 0.25rem 0.75rem;
-      margin: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem) 0 0.5rem;
+      margin: clamp(1.35rem, 1.1rem + 1.2vw, 2.25rem) 0 0.5rem;
     }
 
     .price-prefix {
@@ -555,7 +669,7 @@
 
     .price-num {
       font-family: var(--serif);
-      font-size: clamp(2.25rem, 1.8rem + 2vw, 3rem);
+      font-size: clamp(2.1rem, 1.7rem + 2vw, 3.35rem);
       font-weight: 600;
       color: #FFFFFF;
       line-height: 1;
@@ -568,8 +682,8 @@
     .price-note {
       font-size: var(--step-tiny);
       color: var(--faint);
-      padding-bottom: clamp(1.25rem, 1rem + 0.8vw, 1.75rem);
-      margin-bottom: clamp(1.25rem, 1rem + 0.8vw, 1.75rem);
+      padding-bottom: clamp(1.15rem, 0.9rem + 0.8vw, 1.75rem);
+      margin-bottom: clamp(1.15rem, 0.9rem + 0.8vw, 1.75rem);
       border-bottom: 1px solid var(--hairline);
     }
 
@@ -597,14 +711,14 @@
     .reassurance-bar {
       display: grid;
       grid-template-columns: 1fr;
-      gap: clamp(1.75rem, 1.25rem + 2vw, 2.5rem) var(--gap);
+      gap: clamp(1.5rem, 1.15rem + 1.8vw, 2.5rem) var(--gap);
       margin-top: var(--section-gap);
-      padding-block: clamp(2rem, 1.5rem + 2vw, 3rem);
+      padding-block: clamp(1.85rem, 1.4rem + 2vw, 3.25rem);
       border-block: 1px solid var(--hairline);
     }
 
     @media (min-width: 560px) { .reassurance-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (min-width: 1000px) { .reassurance-bar { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    @media (min-width: 1024px) { .reassurance-bar { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
     .reassurance-item h3 { color: var(--accent-light); }
     .reassurance-item p { font-size: var(--step-small); color: var(--muted); margin-top: 0.5rem; line-height: 1.65; }
@@ -617,7 +731,7 @@
     }
 
     @media (min-width: 680px) { .reviews-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (min-width: 1000px) { .reviews-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 1600px) { .reviews-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
     .review-card {
       background: var(--surface);
@@ -639,10 +753,10 @@
     .review-quote {
       font-family: var(--serif);
       font-style: italic;
-      font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+      font-size: var(--step-body);
       color: var(--soft);
       line-height: 1.8;
-      margin-bottom: clamp(1.75rem, 1.4rem + 1vw, 2.25rem);
+      margin-bottom: clamp(1.5rem, 1.25rem + 1vw, 2.25rem);
     }
 
     .review-author {
@@ -657,8 +771,6 @@
 
     .author-name { font-size: var(--step-small); font-weight: 600; color: #FFFFFF; }
 
-    .review-badge { color: var(--accent-light); letter-spacing: 0.14em; white-space: nowrap; }
-
     /* BOOKING STEPS */
     .steps-grid {
       display: grid;
@@ -667,7 +779,7 @@
     }
 
     @media (min-width: 560px) { .steps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (min-width: 1000px) { .steps-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    @media (min-width: 1024px) { .steps-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
     .step-card {
       padding-top: clamp(1.25rem, 1rem + 0.8vw, 1.75rem);
@@ -680,7 +792,7 @@
 
     /* FORMULAIRE DE CONTACT NETLIFY */
     .contact-form-wrap {
-      max-width: 760px;
+      max-width: min(820px, 100%);
       margin-inline: auto;
       background: var(--surface);
       border: 1px solid var(--hairline);
@@ -703,6 +815,7 @@
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
+      min-width: 0;
     }
 
     .form-label {
@@ -716,12 +829,15 @@
 
     .form-control {
       width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      min-height: 46px;
       background: var(--bg);
       border: 1px solid var(--hairline-strong);
       border-radius: 2px;
-      padding: 0.875rem 1rem;
+      padding: 0.8rem 1rem;
       font-family: var(--sans);
-      font-size: var(--step-small);
+      font-size: clamp(0.95rem, 0.92rem + 0.15vw, 1.05rem);
       color: #FFFFFF;
       line-height: 1.5;
       transition: border-color 0.3s ease;
@@ -792,7 +908,7 @@
     .site-footer {
       text-align: center;
       margin-top: var(--section-gap);
-      padding-top: clamp(3rem, 2rem + 4vw, 5rem);
+      padding-top: clamp(2.5rem, 1.8rem + 3.5vw, 5rem);
       border-top: 1px solid var(--hairline);
       color: var(--faint);
       font-size: var(--step-small);
@@ -800,7 +916,7 @@
 
     .footer-name {
       font-family: var(--serif);
-      font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.25rem);
+      font-size: clamp(1.65rem, 1.3rem + 1.5vw, 2.5rem);
       font-weight: 600;
       color: #FFF;
       line-height: 1.15;
@@ -812,7 +928,7 @@
       text-transform: uppercase;
       letter-spacing: var(--tracking-eyebrow);
       color: var(--muted);
-      margin: 0.75rem 0 clamp(2rem, 1.5rem + 1.5vw, 2.75rem);
+      margin: 0.75rem 0 clamp(1.75rem, 1.3rem + 1.5vw, 2.75rem);
     }
 
     .contact-links {
@@ -823,7 +939,7 @@
       margin-bottom: 1.75rem;
     }
 
-    .btn-email { text-transform: none; letter-spacing: 0.04em; font-size: 0.875rem; overflow-wrap: anywhere; }
+    .btn-email { text-transform: none; letter-spacing: 0.04em; font-size: clamp(0.8rem, 0.76rem + 0.12vw, 0.92rem); overflow-wrap: anywhere; }
 
     .social-links {
       display: flex;
@@ -879,7 +995,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: clamp(1rem, 2vw, 2.5rem);
+      padding: clamp(0.85rem, 2vw, 2.5rem);
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -898,9 +1014,9 @@
 
     .lightbox-content {
       position: relative;
-      max-width: 960px;
+      max-width: min(1100px, 95vw);
       width: 100%;
-      max-height: 90vh;
+      max-height: 92vh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -909,10 +1025,10 @@
 
     .lightbox-close {
       position: absolute;
-      top: -14px;
-      right: -14px;
-      width: 40px;
-      height: 40px;
+      top: -12px;
+      right: -12px;
+      width: 42px;
+      height: 42px;
       border-radius: 2px;
       background: var(--surface);
       border: 1px solid var(--hairline-strong);
@@ -939,7 +1055,7 @@
 
     .lightbox-img {
       max-width: 100%;
-      max-height: 72vh;
+      max-height: 78vh;
       object-fit: contain;
       background: #0B1120;
     }
@@ -968,12 +1084,12 @@
     /* Back to Top Button */
     .back-to-top {
       position: fixed;
-      bottom: clamp(1rem, 0.5rem + 2vw, 2rem);
-      right: clamp(1rem, 0.5rem + 2vw, 2rem);
+      bottom: max(1rem, env(safe-area-inset-bottom));
+      right: max(1rem, env(safe-area-inset-right));
       width: 44px;
       height: 44px;
       border-radius: 2px;
-      background: rgba(30, 41, 59, 0.9);
+      background: rgba(30, 41, 59, 0.92);
       border: 1px solid var(--hairline-strong);
       color: var(--soft);
       display: flex;
@@ -1030,10 +1146,17 @@
       .social-sep { display: none; }
       .social-links { flex-direction: column; }
       .hero-actions .btn { width: 100%; }
+      .hero-stats { grid-template-columns: 1fr; gap: 1rem; }
+      .stat-item + .stat-item {
+        border-left: 0;
+        border-top: 1px solid var(--hairline);
+        padding-top: 1rem;
+      }
     }
 
     @media print {
-      .back-to-top, .lightbox, .gallery-zoom-badge, .hero-actions { display: none !important; }
+      .back-to-top, .lightbox, .gallery-zoom-badge, .hero-actions,
+      .gallery-carousel-controls, .gallery-carousel-dots { display: none !important; }
       .js .reveal-init { opacity: 1 !important; transform: none !important; }
       body { background: #FFF; color: #000; font-size: 11pt; }
       .container { max-width: none; padding: 0; }
@@ -1150,79 +1273,92 @@
         </div>
       </section>
 
-      <!-- GALERIE PHOTO : images sans légendes -->
+      <!-- GALERIE PHOTO : carousel mobile, masonry tablette / desktop / TV -->
       <section aria-labelledby="titre-images" class="reveal-init">
         <div class="section-header">
           <h2 id="titre-images">L'expérience en images</h2>
           <p>Sobriété visuelle, proximité avec vos invités et élégance scénique.</p>
         </div>
-        <div class="gallery-grid">
-          <div class="gallery-item stagger-1" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 1">
-            <div class="gallery-zoom-badge" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+        <div class="gallery-carousel-wrap" data-gallery-carousel>
+          <div class="gallery-grid" id="galleryTrack" role="region" aria-roledescription="carousel" aria-label="Galerie L'expérience en images">
+            <div class="gallery-item stagger-1" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 1">
+              <div class="gallery-zoom-badge" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              </div>
+              <img src="images/dj-sax.jpg" data-full-src="images/dj-sax.jpg" width="640" height="480" decoding="async" alt="DJ SAX">
             </div>
-            <img src="images/dj-sax.jpg" data-full-src="images/dj-sax.jpg" width="640" height="480" loading="lazy" decoding="async" alt="DJ SAX">
-          </div>
-          <div class="gallery-item stagger-2" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 2">
-            <div class="gallery-zoom-badge" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+            <div class="gallery-item stagger-2" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 2">
+              <div class="gallery-zoom-badge" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              </div>
+              <img src="images/red04625.jpg" data-full-src="images/red04625.jpg" width="640" height="480" decoding="async" alt="RED04625">
             </div>
-            <img src="images/red04625.jpg" data-full-src="images/red04625.jpg" width="640" height="480" loading="lazy" decoding="async" alt="RED04625">
-          </div>
-          <div class="gallery-item stagger-3" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 3">
-            <div class="gallery-zoom-badge" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+            <div class="gallery-item stagger-3" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 3">
+              <div class="gallery-zoom-badge" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              </div>
+              <img src="images/red04637.jpg" data-full-src="images/red04637.jpg" width="640" height="480" decoding="async" alt="RED04637">
             </div>
-            <img src="images/red04637.jpg" data-full-src="images/red04637.jpg" width="640" height="480" loading="lazy" decoding="async" alt="RED04637">
-          </div>
-          <div class="gallery-item stagger-1" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 4">
-            <div class="gallery-zoom-badge" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+            <div class="gallery-item stagger-1" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 4">
+              <div class="gallery-zoom-badge" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              </div>
+              <img src="images/red04816.jpg" data-full-src="images/red04816.jpg" width="640" height="480" decoding="async" alt="RED04816">
             </div>
-            <img src="images/red04816.jpg" data-full-src="images/red04816.jpg" width="640" height="480" loading="lazy" decoding="async" alt="RED04816">
-          </div>
-          <div class="gallery-item stagger-2" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 5">
-            <div class="gallery-zoom-badge" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+            <div class="gallery-item stagger-2" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 5">
+              <div class="gallery-zoom-badge" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              </div>
+              <img src="images/red05076.jpg" data-full-src="images/red05076.jpg" width="640" height="480" decoding="async" alt="RED05076">
             </div>
-            <img src="images/red05076.jpg" data-full-src="images/red05076.jpg" width="640" height="480" loading="lazy" decoding="async" alt="RED05076">
-          </div>
-          <div class="gallery-item stagger-3" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 6">
-            <div class="gallery-zoom-badge" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+            <div class="gallery-item stagger-3" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 6">
+              <div class="gallery-zoom-badge" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              </div>
+              <img src="images/red05142.jpg" data-full-src="images/red05142.jpg" width="640" height="480" decoding="async" alt="RED05142">
             </div>
-            <img src="images/red05142.jpg" data-full-src="images/red05142.jpg" width="640" height="480" loading="lazy" decoding="async" alt="RED05142">
-          </div>
-          <div class="gallery-item stagger-1" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 7">
-            <div class="gallery-zoom-badge" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+            <div class="gallery-item stagger-1" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 7">
+              <div class="gallery-zoom-badge" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              </div>
+              <img src="images/setup.jpg" data-full-src="images/setup.jpg" width="640" height="480" decoding="async" alt="setup">
             </div>
-            <img src="images/setup.jpg" data-full-src="images/setup.jpg" width="640" height="480" loading="lazy" decoding="async" alt="setup">
-          </div>
-          <div class="gallery-item stagger-2" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 8">
-            <div class="gallery-zoom-badge" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+            <div class="gallery-item stagger-2" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 8">
+              <div class="gallery-zoom-badge" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              </div>
+              <img src="images/cocktail-event.jpg" data-full-src="images/cocktail-event.jpg" width="640" height="480" decoding="async" alt="cocktail event">
             </div>
-            <img src="images/cocktail-event.jpg" data-full-src="images/cocktail-event.jpg" width="640" height="480" loading="lazy" decoding="async" alt="cocktail event">
-          </div>
-          <div class="gallery-item stagger-3" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 9">
-            <div class="gallery-zoom-badge" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+            <div class="gallery-item stagger-3" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 9">
+              <div class="gallery-zoom-badge" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              </div>
+              <img src="images/duo-saxo-violon.jpg" data-full-src="images/duo-saxo-violon.jpg" width="640" height="480" decoding="async" alt="duo saxo violon">
             </div>
-            <img src="images/duo-saxo-violon.jpg" data-full-src="images/duo-saxo-violon.jpg" width="640" height="480" loading="lazy" decoding="async" alt="duo saxo violon">
-          </div>
-          <div class="gallery-item stagger-1" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 10">
-            <div class="gallery-zoom-badge" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+            <div class="gallery-item stagger-1" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 10">
+              <div class="gallery-zoom-badge" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              </div>
+              <img src="images/duo-dj.jpg" data-full-src="images/duo-dj.jpg" width="640" height="480" decoding="async" alt="Duo DJ">
             </div>
-            <img src="images/duo-dj.jpg" data-full-src="images/duo-dj.jpg" width="640" height="480" loading="lazy" decoding="async" alt="Duo DJ">
-          </div>
-          <div class="gallery-item stagger-2" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 11">
-            <div class="gallery-zoom-badge" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+            <div class="gallery-item stagger-2" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Agrandir la photo 11">
+              <div class="gallery-zoom-badge" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              </div>
+              <img src="images/cocktail.jpg" data-full-src="images/cocktail.jpg" width="640" height="480" decoding="async" alt="Cocktail">
             </div>
-            <img src="images/cocktail.jpg" data-full-src="images/cocktail.jpg" width="640" height="480" loading="lazy" decoding="async" alt="Cocktail">
           </div>
+
+          <div class="gallery-carousel-controls" aria-label="Navigation du carousel photos">
+            <button type="button" class="carousel-btn" id="carouselPrev" aria-label="Photo précédente">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <span class="carousel-counter" id="carouselCounter" aria-live="polite">1 / 11</span>
+            <button type="button" class="carousel-btn" id="carouselNext" aria-label="Photo suivante">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+          <div class="gallery-carousel-dots" id="carouselDots" aria-label="Sélection directe d'une photo"></div>
         </div>
       </section>
 
@@ -1675,6 +1811,102 @@
           lastFocusedElement.focus();
         }
       }
+
+      var galleryTrack = document.getElementById('galleryTrack');
+      var carouselPrev = document.getElementById('carouselPrev');
+      var carouselNext = document.getElementById('carouselNext');
+      var carouselCounter = document.getElementById('carouselCounter');
+      var carouselDots = document.getElementById('carouselDots');
+      var currentSlideIndex = 0;
+      var dotButtons = [];
+
+      function isMobileCarouselMode() {
+        return window.matchMedia && window.matchMedia('(max-width: 639px)').matches;
+      }
+
+      function updateCarouselUI(index) {
+        var total = galleryItems.length;
+        if (!total) return;
+        currentSlideIndex = Math.max(0, Math.min(index, total - 1));
+        if (carouselCounter) {
+          carouselCounter.textContent = (currentSlideIndex + 1) + ' / ' + total;
+        }
+        dotButtons.forEach(function (dot, idx) {
+          var active = idx === currentSlideIndex;
+          dot.classList.toggle('is-active', active);
+          dot.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+      }
+
+      function scrollToSlide(index, smooth) {
+        var total = galleryItems.length;
+        if (!galleryTrack || !total) return;
+        var wrappedIndex = ((index % total) + total) % total;
+        var targetItem = galleryItems[wrappedIndex];
+        if (!targetItem) return;
+        var targetLeft = targetItem.offsetLeft - (galleryTrack.clientWidth - targetItem.offsetWidth) / 2;
+        galleryTrack.scrollTo({
+          left: Math.max(0, targetLeft),
+          behavior: smooth ? 'smooth' : 'auto'
+        });
+        updateCarouselUI(wrappedIndex);
+      }
+
+      if (carouselDots && galleryItems.length) {
+        galleryItems.forEach(function (_, idx) {
+          var dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'carousel-dot' + (idx === 0 ? ' is-active' : '');
+          dot.setAttribute('role', 'tab');
+          dot.setAttribute('aria-label', 'Aller à la photo ' + (idx + 1));
+          dot.setAttribute('aria-selected', idx === 0 ? 'true' : 'false');
+          dot.addEventListener('click', function () {
+            scrollToSlide(idx, true);
+          });
+          carouselDots.appendChild(dot);
+          dotButtons.push(dot);
+        });
+      }
+
+      if (carouselPrev) {
+        carouselPrev.addEventListener('click', function () {
+          scrollToSlide(currentSlideIndex - 1, true);
+        });
+      }
+
+      if (carouselNext) {
+        carouselNext.addEventListener('click', function () {
+          scrollToSlide(currentSlideIndex + 1, true);
+        });
+      }
+
+      if (galleryTrack && galleryItems.length) {
+        var scrollSyncTimer = null;
+        galleryTrack.addEventListener('scroll', function () {
+          if (!isMobileCarouselMode()) return;
+          if (scrollSyncTimer) window.clearTimeout(scrollSyncTimer);
+          scrollSyncTimer = window.setTimeout(function () {
+            var center = galleryTrack.scrollLeft + galleryTrack.clientWidth / 2;
+            var bestIdx = 0;
+            var bestDist = Infinity;
+            galleryItems.forEach(function (item, idx) {
+              var itemCenter = item.offsetLeft + item.offsetWidth / 2;
+              var dist = Math.abs(center - itemCenter);
+              if (dist < bestDist) {
+                bestDist = dist;
+                bestIdx = idx;
+              }
+            });
+            updateCarouselUI(bestIdx);
+          }, 70);
+        }, { passive: true });
+      }
+
+      window.addEventListener('resize', function () {
+        if (isMobileCarouselMode()) {
+          updateCarouselUI(currentSlideIndex);
+        }
+      }, { passive: true });
 
       galleryItems.forEach(function (item) {
         item.addEventListener('click', function () {

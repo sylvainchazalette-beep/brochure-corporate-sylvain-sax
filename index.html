@@ -372,7 +372,7 @@
     .video-wrapper {
       position: relative;
       width: 100%;
-      height: 360px;
+      height: 390px;
       background: #0B1120;
       overflow: hidden;
       border-radius: var(--radius) var(--radius) 0 0;
@@ -381,20 +381,19 @@
     .video-wrapper iframe {
       position: absolute;
       top: -54px;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 0;
       width: 100%;
-      height: 550px;
+      height: 780px;
       border: 0;
       pointer-events: auto;
     }
 
     @media (min-width: 680px) {
       .video-wrapper {
-        height: 410px;
+        height: 430px;
       }
       .video-wrapper iframe {
-        height: 610px;
+        height: 820px;
       }
     }
 
@@ -1730,264 +1729,3 @@
       <polyline points="18 15 12 9 6 15"></polyline>
     </svg>
   </button>
-
-  <script>
-    (function () {
-      'use strict';
-
-      var backToTopBtn = document.getElementById('backToTop');
-      var ticking = false;
-
-      function onScroll() {
-        if (!ticking) {
-          window.requestAnimationFrame(function () {
-            var scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
-            if (backToTopBtn) {
-              backToTopBtn.classList.toggle('is-visible', scrollTop > 450);
-            }
-            ticking = false;
-          });
-          ticking = true;
-        }
-      }
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-
-      if (backToTopBtn) {
-        backToTopBtn.addEventListener('click', function () {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-      }
-
-      var revealElements = document.querySelectorAll('.reveal-init');
-      if ('IntersectionObserver' in window) {
-        var revealObserver = new IntersectionObserver(function (entries, observer) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-revealed');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, {
-          threshold: 0.12,
-          rootMargin: '0px 0px -40px 0px'
-        });
-
-        revealElements.forEach(function (el) {
-          revealObserver.observe(el);
-        });
-      } else {
-        revealElements.forEach(function (el) {
-          el.classList.add('is-revealed');
-        });
-      }
-
-      var lightbox = document.getElementById('imageLightbox');
-      var lightboxImg = document.getElementById('lightboxImg');
-      var lightboxTitle = document.getElementById('lightboxTitle');
-      var lightboxSub = document.getElementById('lightboxSub');
-      var lightboxClose = document.getElementById('lightboxClose');
-      var lightboxBackdrop = document.getElementById('lightboxBackdrop');
-      var galleryItems = document.querySelectorAll('.gallery-item');
-      var lastFocusedElement = null;
-
-      function openLightbox(item) {
-        var img = item.querySelector('img');
-        var title = item.querySelector('.gallery-caption');
-        var sub = item.querySelector('.gallery-sub');
-        if (!img || !lightbox || !lightboxImg) return;
-
-        lastFocusedElement = document.activeElement;
-        var fullSrc = img.getAttribute('data-full-src') || img.src;
-        lightboxImg.src = fullSrc;
-        lightboxImg.alt = img.alt || '';
-        var titleText = title ? title.textContent.trim() : '';
-        var subText = sub ? sub.textContent.trim() : '';
-        var captionEl = lightbox.querySelector('.lightbox-caption');
-        if (lightboxTitle) lightboxTitle.textContent = titleText;
-        if (lightboxSub) lightboxSub.textContent = subText;
-        if (captionEl) captionEl.style.display = (titleText || subText) ? '' : 'none';
-
-        lightbox.classList.add('is-open');
-        lightbox.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-
-        if (lightboxClose) {
-          lightboxClose.focus();
-        }
-      }
-
-      function closeLightbox() {
-        if (!lightbox) return;
-        lightbox.classList.remove('is-open');
-        lightbox.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-        if (lightboxImg) lightboxImg.src = '';
-        if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
-          lastFocusedElement.focus();
-        }
-      }
-
-      var galleryTrack = document.getElementById('galleryTrack');
-      var carouselPrev = document.getElementById('carouselPrev');
-      var carouselNext = document.getElementById('carouselNext');
-      var carouselCounter = document.getElementById('carouselCounter');
-      var carouselDots = document.getElementById('carouselDots');
-      var currentSlideIndex = 0;
-      var dotButtons = [];
-
-      function isMobileCarouselMode() {
-        return window.matchMedia && window.matchMedia('(max-width: 639px)').matches;
-      }
-
-      function updateCarouselUI(index) {
-        var total = galleryItems.length;
-        if (!total) return;
-        currentSlideIndex = Math.max(0, Math.min(index, total - 1));
-        if (carouselCounter) {
-          carouselCounter.textContent = (currentSlideIndex + 1) + ' / ' + total;
-        }
-        dotButtons.forEach(function (dot, idx) {
-          var active = idx === currentSlideIndex;
-          dot.classList.toggle('is-active', active);
-          dot.setAttribute('aria-selected', active ? 'true' : 'false');
-        });
-      }
-
-      function scrollToSlide(index, smooth) {
-        var total = galleryItems.length;
-        if (!galleryTrack || !total) return;
-        var wrappedIndex = ((index % total) + total) % total;
-        var targetItem = galleryItems[wrappedIndex];
-        if (!targetItem) return;
-        var targetLeft = targetItem.offsetLeft - (galleryTrack.clientWidth - targetItem.offsetWidth) / 2;
-        galleryTrack.scrollTo({
-          left: Math.max(0, targetLeft),
-          behavior: smooth ? 'smooth' : 'auto'
-        });
-        updateCarouselUI(wrappedIndex);
-      }
-
-      if (carouselDots && galleryItems.length) {
-        galleryItems.forEach(function (_, idx) {
-          var dot = document.createElement('button');
-          dot.type = 'button';
-          dot.className = 'carousel-dot' + (idx === 0 ? ' is-active' : '');
-          dot.setAttribute('role', 'tab');
-          dot.setAttribute('aria-label', 'Aller à la photo ' + (idx + 1));
-          dot.setAttribute('aria-selected', idx === 0 ? 'true' : 'false');
-          dot.addEventListener('click', function () {
-            scrollToSlide(idx, true);
-          });
-          carouselDots.appendChild(dot);
-          dotButtons.push(dot);
-        });
-      }
-
-      if (carouselPrev) {
-        carouselPrev.addEventListener('click', function () {
-          scrollToSlide(currentSlideIndex - 1, true);
-        });
-      }
-
-      if (carouselNext) {
-        carouselNext.addEventListener('click', function () {
-          scrollToSlide(currentSlideIndex + 1, true);
-        });
-      }
-
-      if (galleryTrack && galleryItems.length) {
-        var scrollSyncTimer = null;
-        galleryTrack.addEventListener('scroll', function () {
-          if (!isMobileCarouselMode()) return;
-          if (scrollSyncTimer) window.clearTimeout(scrollSyncTimer);
-          scrollSyncTimer = window.setTimeout(function () {
-            var center = galleryTrack.scrollLeft + galleryTrack.clientWidth / 2;
-            var bestIdx = 0;
-            var bestDist = Infinity;
-            galleryItems.forEach(function (item, idx) {
-              var itemCenter = item.offsetLeft + item.offsetWidth / 2;
-              var dist = Math.abs(center - itemCenter);
-              if (dist < bestDist) {
-                bestDist = dist;
-                bestIdx = idx;
-              }
-            });
-            updateCarouselUI(bestIdx);
-          }, 70);
-        }, { passive: true });
-      }
-
-      window.addEventListener('resize', function () {
-        if (isMobileCarouselMode()) {
-          updateCarouselUI(currentSlideIndex);
-        }
-      }, { passive: true });
-
-      galleryItems.forEach(function (item) {
-        item.addEventListener('click', function () {
-          openLightbox(item);
-        });
-        item.addEventListener('keydown', function (e) {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            openLightbox(item);
-          }
-        });
-      });
-
-      if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
-      if (lightboxBackdrop) lightboxBackdrop.addEventListener('click', closeLightbox);
-
-      window.addEventListener('keydown', function (e) {
-        if (!lightbox || !lightbox.classList.contains('is-open')) return;
-        if (e.key === 'Escape') {
-          closeLightbox();
-        } else if (e.key === 'Tab' && lightboxClose) {
-          e.preventDefault();
-          lightboxClose.focus();
-        }
-      });
-
-      var contactForm = document.getElementById('corporateContactForm');
-      var formStatus = document.getElementById('formStatus');
-      if (contactForm && formStatus) {
-        contactForm.addEventListener('submit', function (e) {
-          e.preventDefault();
-          var submitBtn = contactForm.querySelector('button[type="submit"]');
-          if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Envoi en cours…';
-          }
-          var formData = new FormData(contactForm);
-          fetch('/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams(formData).toString()
-          })
-          .then(function (response) {
-            if (response.ok) {
-              formStatus.className = 'form-status is-success';
-              formStatus.textContent = 'Merci ! Votre demande a bien été transmise. Je reviens vers vous sous 24 h.';
-              contactForm.reset();
-            } else {
-              throw new Error('Erreur réseau');
-            }
-          })
-          .catch(function () {
-            formStatus.className = 'form-status is-error';
-            formStatus.textContent = 'Une erreur est survenue lors de l’envoi. Vous pouvez me contacter directement au 06 28 93 39 95 ou par e-mail.';
-          })
-          .finally(function () {
-            if (submitBtn) {
-              submitBtn.disabled = false;
-              submitBtn.textContent = 'Envoyer ma demande de devis';
-            }
-          });
-        });
-      }
-    })();
-  </script>
-</body>
-</html>

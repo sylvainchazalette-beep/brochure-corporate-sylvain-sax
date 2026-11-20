@@ -372,8 +372,7 @@
     .video-wrapper {
       position: relative;
       width: 100%;
-      aspect-ratio: 9 / 16;
-      max-height: 500px;
+      height: 360px;
       background: #0B1120;
       overflow: hidden;
       border-radius: var(--radius) var(--radius) 0 0;
@@ -385,21 +384,17 @@
       left: 50%;
       transform: translateX(-50%);
       width: 100%;
-      height: calc(100% + 260px);
+      height: 550px;
       border: 0;
       pointer-events: auto;
     }
 
-    @media (max-width: 559px) {
+    @media (min-width: 680px) {
       .video-wrapper {
-        aspect-ratio: auto;
         height: 410px;
-        max-height: none;
       }
       .video-wrapper iframe {
-        width: 100%;
-        top: -52px;
-        height: calc(100% + 245px);
+        height: 610px;
       }
     }
 
